@@ -1,7 +1,6 @@
 import React from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const UserProfile = ({ params }: any) => {
+const UserProfile = ({ params }: { params: { id: string } }) => {
   return <div>UserProfile {params.id}</div>;
 };
 
