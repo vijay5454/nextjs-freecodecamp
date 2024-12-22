@@ -1,7 +1,7 @@
 import React from "react";
 
-const UserProfile = async ({ params }: { params: { id: string } }) => {
-  return <div>UserProfile {await params.id}</div>;
+const UserProfile = ({ params }: any) => {
+  return <div>UserProfile {params.id}</div>;
 };
 
 export default UserProfile;
