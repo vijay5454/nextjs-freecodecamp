@@ -2,15 +2,34 @@
 
 import React, { FormEvent, useState } from "react";
 import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import axios, { AxiosError } from "axios";
 
 const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const onLogin = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(user);
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/users/login", user);
+      console.log(response.data);
+      router.push("profile");
+    } catch (error: unknown) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+        return;
+      }
+      toast.error("Something wents wrong!");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="flex justify-center min-h-screen items-center flex-col">
@@ -47,7 +66,12 @@ const Login = () => {
           />
         </div>
         <div className="text-center">
-          <button className="p-2 bg-white text-black rounded-md">Submit</button>
+          <button
+            className="p-2 bg-white text-black rounded-md"
+            disabled={loading}
+          >
+            {loading ? "Processing" : "Submit"}
+          </button>
         </div>
       </form>
       <div className="mt-2">
@@ -55,6 +79,7 @@ const Login = () => {
           <button type="submit">Want to SignUp?</button>
         </Link>
       </div>
+      <Toaster />
     </div>
   );
 };

@@ -19,9 +19,9 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post("/api/signup", user);
+      const response = await axios.post("/api/users/signup", user);
       console.log(response.data);
-      router.push(`/profile/${response.data.user._id}`);
+      router.push("profile");
     } catch (error: unknown) {
       console.log(error);
       if (error instanceof AxiosError) {
